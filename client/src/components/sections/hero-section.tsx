@@ -1,21 +1,16 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Download } from "lucide-react";
-import { TypewriterText, FadeInText } from "@/components/ui/animated-text";
-import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCode, FaDatabase } from "react-icons/fa";
-import { SiFlutter, SiTailwindcss } from "react-icons/si";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { Download } from 'lucide-react';
 
 interface HeroSectionProps {
-  name: string;
-  title: string;
-  shortBio: string;
-  cvPath: string;
+  name?: string;
+  title?: string;
+  shortBio?: string;
+  cvPath?: string;
 }
 
-export default function HeroSection({ name, title, shortBio, cvPath }: HeroSectionProps) {
+export default function HeroSection({ name = "Dushan Chanuka", title = "Software & Mobile Developer", shortBio, cvPath }: HeroSectionProps) {
   const [isClient, setIsClient] = useState(false);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsClient(true);
@@ -24,7 +19,7 @@ export default function HeroSection({ name, title, shortBio, cvPath }: HeroSecti
   const handleDownloadCV = () => {
     // Create an anchor element and set the properties
     const link = document.createElement('a');
-    link.href = cvPath;
+    link.href = cvPath || "#";
     link.download = 'developer_cv.pdf';
     // Append to the document and trigger click
     document.body.appendChild(link);
@@ -33,171 +28,312 @@ export default function HeroSection({ name, title, shortBio, cvPath }: HeroSecti
     document.body.removeChild(link);
   };
 
-  const techIcons = [
-    { icon: <SiFlutter className="text-blue-400 text-2xl" />, name: "Flutter" },
-    { icon: <FaJs className="text-yellow-400 text-2xl" />, name: "JavaScript" },
-    { icon: <FaNodeJs className="text-green-500 text-2xl" />, name: "Node.js" },
-    { icon: <FaReact className="text-blue-400 text-2xl" />, name: "React" },
-    { icon: <SiTailwindcss className="text-teal-400 text-2xl" />, name: "Tailwind" },
-    { icon: <FaHtml5 className="text-orange-500 text-2xl" />, name: "HTML5" },
-    { icon: <FaCode className="text-purple-400 text-2xl" />, name: "Code" },
-    { icon: <FaDatabase className="text-red-400 text-2xl" />, name: "Database" },
-  ];
+  // Text animation variants
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.05,
+        duration: 0.5
+      }
+    })
+  };
 
-  // Calculate the optimized layout
-  const mobileLayout = isMobile || window.innerWidth < 768;
-  
   return (
-    <section id="home" className="min-h-screen pt-20 md:pt-24 lg:pt-0 flex items-center justify-center relative overflow-hidden">
-      {/* Background effect */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1E1E1E] via-[#2A2A2A] to-[#1E1E1E]"></div>
-      </div>
+    <section id="home" className="min-h-screen flex items-center justify-center relative pt-24 sm:pt-28 md:pt-24 overflow-hidden">
+      <div id="particles-js" className="absolute inset-0 z-0"></div>
       
-      <div className="container mx-auto px-4 md:px-6 z-10 relative">
-        <div className={`flex flex-col items-center justify-center ${mobileLayout ? 'flex-col-reverse' : 'flex-col'}`}>
-          {/* Order changes based on mobile/desktop */}
-          <div className={`text-center ${mobileLayout ? 'mt-8' : 'mb-8'}`}>
-            <FadeInText delay={0.2}>
-              <h3 className="text-xl md:text-2xl text-primary mb-2 font-mono">Hello, I'm</h3>
-            </FadeInText>
-            
-            {isClient && (
-              <>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-sans mb-4">
-                  <TypewriterText text={name} />
-                </h1>
-                <h2 className="text-2xl md:text-3xl text-gray-300 font-medium font-sans mb-8">
-                  <TypewriterText text={title} delay={2} />
-                </h2>
-              </>
-            )}
-          </div>
-          
-          {/* Profile Image with integrated eclipses and floating icons */}
-          <div className={`relative mb-10 ${mobileLayout ? 'mt-3' : 'mt-6'}`}>
-            <motion.div
-              className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full border-4 border-primary/30 p-1 z-10 shadow-xl shadow-primary/20"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              {/* Eclipses around the profile image - better aligned */}
-              <div className="absolute w-full h-full rounded-full -z-10 top-0 left-0">
-                <motion.div
-                  className="absolute w-[110%] h-[110%] rounded-full border-2 border-dashed border-primary/70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-                />
-                <motion.div
-                  className="absolute w-[125%] h-[125%] rounded-full border-2 border-dashed border-accent/70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-                />
-                <motion.div
-                  className="absolute w-[140%] h-[140%] rounded-full border-2 border-dashed border-white/30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                  initial={{ rotate: 0 }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 30, ease: "linear", repeat: Infinity }}
-                />
-              </div>
-              
-              {/* The profile image */}
+      <div className="container mx-auto px-4 sm:px-6 z-10 flex flex-col items-center">
+        {/* Mobile profile image - shows at top on mobile, hidden on md screens and up */}
+        <motion.div 
+          className="block md:hidden w-full max-w-[200px] mb-8"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.div 
+            className="relative mx-auto"
+            animate={{ 
+              y: [0, -5, 0],
+            }}
+            transition={{ 
+              repeat: Infinity,
+              duration: 4,
+              ease: "easeInOut" 
+            }}
+          >
+            <motion.div 
+              className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur-md opacity-50"
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 4,
+                ease: "easeInOut"
+              }}
+            ></motion.div>
+            <div className="relative rounded-full overflow-hidden border-4 border-dark-lighter h-40 w-40">
               <img 
                 src="https://images.unsplash.com/photo-1586374579358-9d19d632b6d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
                 alt="Developer Profile" 
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover"
               />
-              
-              {/* Floating technology icons around the profile - better positioned */}
-              {isClient && (
-                <div className="absolute inset-0">
-                  <div className="relative w-full h-full">
-                    {techIcons.map((tech, index) => {
-                      // Calculate position based on screen size for better responsiveness
-                      const angle = (index / techIcons.length) * Math.PI * 2;
-                      // Adjust radius based on container size for proper scaling
-                      const radius = mobileLayout ? 120 : 150; 
-                      const x = radius * Math.cos(angle);
-                      const y = radius * Math.sin(angle);
-                      
-                      return (
-                        <motion.div
-                          key={index}
-                          className="absolute top-1/2 left-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1a1a1a] shadow-lg flex items-center justify-center border border-primary/20"
-                          initial={{ opacity: 0, scale: 0 }}
-                          animate={{ 
-                            opacity: 1, 
-                            scale: 1,
-                          }}
-                          transition={{ 
-                            delay: index * 0.15,
-                            duration: 0.5,
-                          }}
-                          style={{
-                            transform: `translate(-50%, -50%) translate(${x}px, ${y}px)`,
-                          }}
-                        >
-                          {tech.icon}
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+            </div>
+          </motion.div>
+        </motion.div>
+        
+        {/* Main content row */}
+        <div className="flex flex-col md:flex-row items-center w-full">
+          <div className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left">
+            <motion.p 
+              className="text-blue-400 mb-3 text-sm sm:text-base"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Hello, I'm
+            </motion.p>
+            
+            {/* Animated name as a single unit to prevent wrapping */}
+            <motion.h1 
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 whitespace-nowrap"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Dushan</span>
+              <span className="mx-2"></span>
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Chanuka</span>
+            </motion.h1>
+            
+            {/* Animated title as a single unit to prevent wrapping */}
+            <motion.div 
+              className="text-xl sm:text-2xl md:text-3xl font-medium text-gray-300 mb-6 whitespace-nowrap"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              Software&nbsp;&nbsp;&amp;&nbsp;&nbsp;Mobile&nbsp;&nbsp;Developer
+            </motion.div>
+            
+            <motion.p 
+              className="text-gray-400 max-w-xl mx-auto md:mx-0 mb-8 text-sm sm:text-base"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: 0.6,
+                type: "spring",
+                stiffness: 100 
+              }}
+            >
+              Building innovative mobile and web applications with a passion for creating engaging user experiences.
+            </motion.p>
+            
+            <motion.div 
+              className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.8,
+                type: "spring"
+              }}
+            >
+              <motion.a 
+                href="#projects" 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-md text-sm sm:text-base transition-all duration-300"
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)"  
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="fas fa-eye mr-2"></i>
+                View My Work
+              </motion.a>
+              <motion.button
+                onClick={handleDownloadCV}
+                className="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-md text-sm sm:text-base transition-all duration-300"
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)"  
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="fas fa-download mr-2"></i>
+                Download CV
+              </motion.button>
+              <motion.a 
+                href="#contact" 
+                className="border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 px-5 py-2.5 sm:px-6 sm:py-3 rounded-md text-sm sm:text-base transition-all duration-300"
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 0 20px rgba(34, 211, 238, 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <i className="fas fa-envelope mr-2"></i>
+                Contact Me
+              </motion.a>
+            </motion.div>
+            
+            <motion.div 
+              className="mt-8 md:mt-10 flex gap-4 md:gap-6 justify-center md:justify-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1 }}
+            >
+              <motion.a 
+                href="https://github.com" 
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl bg-[#121212] p-2 rounded-full hover:bg-gray-800"
+                whileHover={{ 
+                  scale: 1.2,
+                  color: "#ffffff",
+                  rotate: 5,
+                  boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)"
+                }}
+                whileTap={{ scale: 0.9 }}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-github"></i>
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl bg-[#121212] p-2 rounded-full hover:bg-gray-800"
+                whileHover={{ 
+                  scale: 1.2,
+                  color: "#0077b5",
+                  rotate: -5,
+                  boxShadow: "0 0 15px rgba(0, 119, 181, 0.3)"
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <i className="fab fa-linkedin"></i>
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl bg-[#121212] p-2 rounded-full hover:bg-gray-800"
+                whileHover={{ 
+                  scale: 1.2,
+                  color: "#1DA1F2",
+                  rotate: 5,
+                  boxShadow: "0 0 15px rgba(29, 161, 242, 0.3)"
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <i className="fab fa-twitter"></i>
+              </motion.a>
+              <motion.a 
+                href="#" 
+                className="text-gray-400 hover:text-white transition-colors text-xl sm:text-2xl bg-[#121212] p-2 rounded-full hover:bg-gray-800"
+                whileHover={{ 
+                  scale: 1.2,
+                  color: "#00ab6c",
+                  rotate: -5,
+                  boxShadow: "0 0 15px rgba(0, 171, 108, 0.3)"
+                }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <i className="fab fa-medium"></i>
+              </motion.a>
             </motion.div>
           </div>
           
-          {/* Short bio */}
-          <FadeInText delay={0.6} className="text-center max-w-2xl mx-auto mb-8">
-            <p className="text-lg text-gray-400">
-              {shortBio}
-            </p>
-          </FadeInText>
-          
-          {/* Download CV Button */}
-          <FadeInText delay={0.8} className="flex justify-center">
-            <button
-              onClick={handleDownloadCV}
-              className="px-8 py-3 bg-primary hover:bg-primary/90 text-white rounded-full 
-                    flex items-center justify-center space-x-2 group transition-all duration-300
-                    shadow-lg shadow-primary/20 hover:shadow-primary/40"
+          {/* Desktop profile image - hidden on mobile, visible on md screens and up */}
+          <motion.div 
+            className="hidden md:flex md:w-1/2 justify-center md:justify-end pr-6 lg:pr-10"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <motion.div 
+              className="relative"
+              animate={{ 
+                y: [0, -10, 0],
+              }}
+              transition={{ 
+                repeat: Infinity,
+                duration: 6,
+                ease: "easeInOut" 
+              }}
             >
-              <span>Download CV</span>
-              <Download className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
-            </button>
-          </FadeInText>
+              <motion.div 
+                className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur-md opacity-50"
+                animate={{
+                  opacity: [0.3, 0.6, 0.3],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 4,
+                  ease: "easeInOut"
+                }}
+              ></motion.div>
+              <div className="relative rounded-full overflow-hidden border-4 border-gray-800 h-48 w-48 sm:h-56 sm:w-56 md:h-64 md:w-64 lg:h-80 lg:w-80">
+                {/* Profile image */}
+                <img 
+                  src="https://images.unsplash.com/photo-1586374579358-9d19d632b6d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                  alt="Developer Profile" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Decorative elements */}
+              <motion.div 
+                className="absolute -top-4 -right-4 text-blue-500 text-2xl opacity-30"
+                animate={{ 
+                  rotate: [0, 360],
+                  opacity: [0.2, 0.4, 0.2]
+                }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 10,
+                  ease: "linear" 
+                }}
+              >
+                <i className="fas fa-code"></i>
+              </motion.div>
+              
+              <motion.div 
+                className="absolute bottom-4 -left-4 text-cyan-500 text-2xl opacity-30"
+                animate={{ 
+                  rotate: [0, -360],
+                  opacity: [0.2, 0.5, 0.2]
+                }}
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 12,
+                  ease: "linear" 
+                }}
+              >
+                <i className="fas fa-mobile-alt"></i>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-      
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
-        <button
-          onClick={() => {
-            const aboutSection = document.querySelector("#about");
-            aboutSection?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="text-white/70 hover:text-white transition-colors"
-          aria-label="Scroll to about section"
-        >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="h-6 w-6" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M19 14l-7 7m0 0l-7-7m7 7V3" 
-            />
-          </svg>
-        </button>
-      </div>
+
+      <motion.div 
+        className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2"
+        animate={{ 
+          y: [0, 10, 0],
+        }}
+        transition={{ 
+          repeat: Infinity,
+          duration: 2,
+          ease: "easeInOut" 
+        }}
+      >
+        <a href="#about" className="text-blue-400 hover:text-blue-300 transition-colors bg-[#121212]/50 rounded-full p-2 flex items-center justify-center">
+          <i className="fas fa-chevron-down text-lg sm:text-2xl"></i>
+        </a>
+      </motion.div>
     </section>
   );
 }

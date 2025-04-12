@@ -5,13 +5,14 @@ import AboutSection from "@/components/sections/about-section";
 import SkillsSection from "@/components/sections/skills-section";
 import ProjectsSection from "@/components/sections/projects-section";
 import GithubSection from "@/components/sections/github-section";
+import ContactSection from "@/components/sections/contact-section";
 import Footer from "@/components/sections/footer";
 import { portfolioData } from "@/data/portfolio-data";
 
 export default function Home() {
   useEffect(() => {
     // Set page title
-    document.title = `${portfolioData.name} | Portfolio`;
+    document.title = `${portfolioData.name || "Dushan Chanuka"} | Portfolio`;
   }, []);
 
   return (
@@ -20,10 +21,10 @@ export default function Home() {
       
       <main className="flex-grow">
         <HeroSection 
-          name={portfolioData.name || "John Doe"} 
-          title={portfolioData.title || "Fullstack Developer"} 
-          shortBio={portfolioData.shortBio || "I create elegant solutions for complex problems. Specializing in mobile and web development with React, Flutter, and Node.js."} 
-          cvPath={portfolioData.cvPath || "#"}
+          name={portfolioData.name} 
+          title={portfolioData.title} 
+          shortBio={portfolioData.shortBio} 
+          cvPath={portfolioData.cvPath}
         />
         
         <AboutSection />
@@ -35,6 +36,8 @@ export default function Home() {
         <GithubSection 
           username={portfolioData.githubUsername || "johndoe"}
         />
+
+        <ContactSection />
       </main>
       
       <Footer 
