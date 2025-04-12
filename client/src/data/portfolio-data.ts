@@ -4,7 +4,7 @@ export const portfolioData = {
   name: "John Doe",
   title: "Mobile & Fullstack Developer",
   shortBio: "Passionate about creating beautiful, functional, and user-friendly applications using cutting-edge technologies.",
-  cvPath: "/cv.pdf", // Path to CV file
+  cvPath: "./cv.pdf", // Path to CV file
   
   // GitHub username for stats
   githubUsername: "johndoe",
