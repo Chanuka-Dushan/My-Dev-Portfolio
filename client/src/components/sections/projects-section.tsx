@@ -157,7 +157,8 @@ export default function ProjectsSection() {
               </button>
             </motion.div>
           ) : (
-            <AnimatePresence mode="wait">
+            // Removed AnimatePresence to fix the warning
+            <>
               {filteredProjects.map((project) => (
                 <motion.div 
                   key={project.id}
@@ -170,8 +171,6 @@ export default function ProjectsSection() {
                   }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  layout="position"
                   transition={{ duration: 0.5 }}
                 >
                   <div className="h-40 sm:h-48 overflow-hidden bg-gray-800 relative">
@@ -260,7 +259,7 @@ export default function ProjectsSection() {
                   </div>
                 </motion.div>
               ))}
-            </AnimatePresence>
+            </>
           )}
         </motion.div>
       </div>

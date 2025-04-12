@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Download } from "lucide-react";
 import { TypewriterText, FadeInText } from "@/components/ui/animated-text";
-import { EclipseSet } from "@/components/ui/eclipse-animation";
-import { FloatingIcon, FloatingIconsContainer } from "@/components/ui/floating-icon";
 import { FaReact, FaNodeJs, FaJs, FaHtml5, FaCode, FaDatabase } from "react-icons/fa";
 import { SiFlutter, SiTailwindcss } from "react-icons/si";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeroSectionProps {
   name: string;
@@ -16,6 +15,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ name, title, shortBio, cvPath }: HeroSectionProps) {
   const [isClient, setIsClient] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     setIsClient(true);
@@ -34,27 +34,30 @@ export default function HeroSection({ name, title, shortBio, cvPath }: HeroSecti
   };
 
   const techIcons = [
-    { icon: <SiFlutter className="text-blue-400 text-2xl" /> },
-    { icon: <FaJs className="text-yellow-400 text-2xl" /> },
-    { icon: <FaNodeJs className="text-green-500 text-2xl" /> },
-    { icon: <FaReact className="text-blue-400 text-2xl" /> },
-    { icon: <SiTailwindcss className="text-teal-400 text-2xl" /> },
-    { icon: <FaHtml5 className="text-orange-500 text-2xl" /> },
-    { icon: <FaCode className="text-purple-400 text-2xl" /> },
-    { icon: <FaDatabase className="text-red-400 text-2xl" /> },
+    { icon: <SiFlutter className="text-blue-400 text-2xl" />, name: "Flutter" },
+    { icon: <FaJs className="text-yellow-400 text-2xl" />, name: "JavaScript" },
+    { icon: <FaNodeJs className="text-green-500 text-2xl" />, name: "Node.js" },
+    { icon: <FaReact className="text-blue-400 text-2xl" />, name: "React" },
+    { icon: <SiTailwindcss className="text-teal-400 text-2xl" />, name: "Tailwind" },
+    { icon: <FaHtml5 className="text-orange-500 text-2xl" />, name: "HTML5" },
+    { icon: <FaCode className="text-purple-400 text-2xl" />, name: "Code" },
+    { icon: <FaDatabase className="text-red-400 text-2xl" />, name: "Database" },
   ];
 
+  // Calculate the optimized layout
+  const mobileLayout = isMobile || window.innerWidth < 768;
+  
   return (
-    <section id="home" className="min-h-screen pt-24 lg:pt-0 flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen pt-20 md:pt-24 lg:pt-0 flex items-center justify-center relative overflow-hidden">
       {/* Background effect */}
       <div className="absolute inset-0 z-0 opacity-20">
         <div className="absolute inset-0 bg-gradient-to-br from-[#1E1E1E] via-[#2A2A2A] to-[#1E1E1E]"></div>
       </div>
       
       <div className="container mx-auto px-4 md:px-6 z-10 relative">
-        <div className="flex flex-col items-center justify-center">
-          {/* Center Hero Content with Circular Layout */}
-          <div className="text-center mb-8">
+        <div className={`flex flex-col items-center justify-center ${mobileLayout ? 'flex-col-reverse' : 'flex-col'}`}>
+          {/* Order changes based on mobile/desktop */}
+          <div className={`text-center ${mobileLayout ? 'mt-8' : 'mb-8'}`}>
             <FadeInText delay={0.2}>
               <h3 className="text-xl md:text-2xl text-primary mb-2 font-mono">Hello, I'm</h3>
             </FadeInText>
@@ -72,14 +75,14 @@ export default function HeroSection({ name, title, shortBio, cvPath }: HeroSecti
           </div>
           
           {/* Profile Image with integrated eclipses and floating icons */}
-          <div className="relative mb-10 mt-6">
+          <div className={`relative mb-10 ${mobileLayout ? 'mt-3' : 'mt-6'}`}>
             <motion.div
-              className="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-primary/30 p-1 z-10 shadow-xl shadow-primary/20"
+              className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-full border-4 border-primary/30 p-1 z-10 shadow-xl shadow-primary/20"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
             >
-              {/* Eclipses around the profile image */}
+              {/* Eclipses around the profile image - better aligned */}
               <div className="absolute w-full h-full rounded-full -z-10 top-0 left-0">
                 <motion.div
                   className="absolute w-[110%] h-[110%] rounded-full border-2 border-dashed border-primary/70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -108,26 +111,26 @@ export default function HeroSection({ name, title, shortBio, cvPath }: HeroSecti
                 className="w-full h-full object-cover rounded-full"
               />
               
-              {/* Floating technology icons around the profile */}
+              {/* Floating technology icons around the profile - better positioned */}
               {isClient && (
                 <div className="absolute inset-0">
                   <div className="relative w-full h-full">
                     {techIcons.map((tech, index) => {
+                      // Calculate position based on screen size for better responsiveness
                       const angle = (index / techIcons.length) * Math.PI * 2;
-                      const radius = 150; // Distance from center
+                      // Adjust radius based on container size for proper scaling
+                      const radius = mobileLayout ? 120 : 150; 
                       const x = radius * Math.cos(angle);
                       const y = radius * Math.sin(angle);
                       
                       return (
                         <motion.div
                           key={index}
-                          className="absolute top-1/2 left-1/2 w-12 h-12 rounded-full bg-[#1E1E1E] shadow-lg flex items-center justify-center border border-primary/20"
-                          initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
+                          className="absolute top-1/2 left-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1a1a1a] shadow-lg flex items-center justify-center border border-primary/20"
+                          initial={{ opacity: 0, scale: 0 }}
                           animate={{ 
                             opacity: 1, 
                             scale: 1,
-                            x: x,
-                            y: y
                           }}
                           transition={{ 
                             delay: index * 0.15,
