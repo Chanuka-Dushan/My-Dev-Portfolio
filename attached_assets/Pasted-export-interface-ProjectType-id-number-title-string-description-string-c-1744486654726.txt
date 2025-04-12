@@ -1,0 +1,70 @@
+export interface ProjectType {
+    id: number;
+    title: string;
+    description: string;
+    category: string;
+    image: string;
+    tags: string[];
+    links: {
+        icon: string;
+        url: string;
+    }[];
+}
+
+export const projects: ProjectType[] = [
+    {
+        id: 1,
+        title: "Ecommex.one",
+        description: "Woked as Fullstack Developer in this Project for 6 months",
+        category: "Web",
+        image: "/src/images/ecommex.png",
+        tags: ["Php", "Node", "Express","Prisma","MySQL","Html","css","Javascript"],
+        links: [
+            { icon: "fas fa-link", url: "https://ecommex.one/user/view/index-en.php" }
+        ]
+    },
+    {
+        id: 2,
+        title: "Ecommex Mobile App",
+        description: "Mobile Application To Manage Ecommex Admin Dashboard.Worked As The Main Developer for this project",
+        category: "Mobile",
+        image: "/src/images/ecomMobile.png",
+        tags: ["Flutter", "Socket.io", "Firebase"],
+        links: [
+            { icon: "fas fa-link", url: "https://ecommex.one/user/view/index-si.php" },
+        ]
+    },
+    {
+        id: 3,
+        title: "WhatsApp Monitor",
+        description: "Application for Monitoring Whatsapp Contacts and fetch data From labels anc categorized By Saved or unsaved manner",
+        category: "Mobile",
+        image: "/src/images/whatsappTrack.png",
+        tags: ["Flutter", "Firebase"],
+        links: [
+            { icon: "fab fa-github", url: "https://github.com/Chanuka-Dushan/WhatsApp-Number-Tracker" }
+        ]
+    },
+    {
+        id: 4,
+        title: "Hotel Reservation System For Weddings",
+        description: "A modern Event management Website for wedding events.",
+        category: "Web",
+        image: "/src/images/hotelreserve.png",
+        tags: ["Html", "Css", "Javascript","Jwt Auth","Mysql"],
+        links: [
+            { icon: "fab fa-github", url: "https://github.com/Chanuka-Dushan/Hotel-Reservation-Sytem-for-Weddings" }
+        ]
+    },
+    {
+        id: 5,
+        title: "Easy Rent",
+        description: "A weather forecasting app with beautiful visualizations and location-based alerts.",
+        category: "Web",
+        image: "/src/images/easyrent.png",
+        tags: ["Mongo DB", "React", "Vite","Tailwind CSS","Node js","Express"],
+        links: [
+            { icon: "fab fa-github", url: "https://github.com/Chanuka-Dushan/EasyRent" }
+        ]
+    }
+];
