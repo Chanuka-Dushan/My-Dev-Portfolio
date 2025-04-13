@@ -1,4 +1,5 @@
 import express, { type Express } from "express";
+import type { ServerOptions } from "vite";
 import fs from "fs";
 import path from "path";
 import { createServer as createViteServer, createLogger } from "vite";
@@ -21,8 +22,7 @@ export function log(message: string, source = "express") {
 
 export async function setupVite(app: Express, server: Server) {
   const serverOptions = {
-    middlewareMode: true,
-    hmr: { server },
+
     allowedHosts: true,
   };
 
@@ -36,7 +36,7 @@ export async function setupVite(app: Express, server: Server) {
         process.exit(1);
       },
     },
-    server: serverOptions,
+   
     appType: "custom",
   });
 
