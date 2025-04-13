@@ -75,7 +75,7 @@
   .eclipse {
     @apply absolute rounded-full border-2 border-dashed opacity-70;
   }
-
+  
   .typing {
     @apply overflow-hidden whitespace-nowrap;
   }
@@ -155,3 +155,5 @@
     50% { transform: translateY(-20px); }
   }
 }
+
+
